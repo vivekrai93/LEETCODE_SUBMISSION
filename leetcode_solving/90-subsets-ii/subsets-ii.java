@@ -1,31 +1,40 @@
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-
         Arrays.sort(nums);
 
         List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> subset = new ArrayList<>();
+        List<Integer> chhotans = new ArrayList<>();
 
-        solve(0,nums,subset,ans);
+        int i = 0;
 
+        solve(i, ans, chhotans, nums);
         return ans;
     }
 
-    public void solve( int i , int []nums, List<Integer> subset , List<List<Integer>> ans){
+    static void solve(int i, List<List<Integer>> ans, List<Integer> chhotans, int[] nums) {
 
-        if(i == nums.length){
-            ans.add(new ArrayList<>(subset));
+        if (i >= nums.length) {
+            ans.add(new ArrayList<>(chhotans));
             return;
         }
 
-        subset.add(nums[i]);
-        solve(i+1,nums,subset,ans);
+        int value = nums[i];
+        //include 
 
-        subset.remove(subset.size()-1);
+        chhotans.add(value);
+        solve(i + 1, ans, chhotans, nums);
 
-        while(i+1 < nums.length && nums[i] == nums[i+1]){
+        // backtrack
+        chhotans.remove(chhotans.size() - 1);
+
+        //while excluding, ignore the same elements and move on to the new element
+        /// ye exclude wala logic ek assumption pr based hai
+        while (i+ 1 < nums.length && nums[i] == nums[i + 1]) {
             i++;
-        } //imp condition for nottake
-        solve(i+1,nums,subset,ans);
+        }
+
+        //exclude 
+        solve(i + 1, ans, chhotans, nums);
+
     }
 }
